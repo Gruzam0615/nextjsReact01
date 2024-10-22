@@ -5,7 +5,6 @@ export default function Page1Layout({
 }) {
     return(
         <section>
-            <nav></nav>
             {children}
         </section>
     );
