@@ -1,8 +1,8 @@
-type Data = {
-    horn_bugle_world_histroy: any,
+type Test2Props = {
+    server_name: string;
 }
 
-export default async function Test2({ server_name }: string) {
+export default async function Test2({ server_name }: Test2Props) {
     const headers = new Headers();
         headers.append("x-nxopen-api-key", String(process.env.TEST1_API_KEY));
 
@@ -13,14 +13,18 @@ export default async function Test2({ server_name }: string) {
     const result = await data.json();
     
     return(
-        <div>
-            <ul>
-            {
-                result.horn_bugle_world_history?.map((item: any, index: string) => {
-                    return <li key={index}>{item.message}</li>
-                })
-            }
-            </ul>            
-        </div>
+        <tbody>
+        {
+            result.horn_bugle_world_history?.map((item: any, index: string) => {
+                return(
+                    <tr id={index}>
+                        <td>{item.character_name}</td>
+                        <td>{item.message.replace(`${item.character_name} : `, "")}</td>
+                        <td>{item.date_send}</td>
+                    </tr>                    
+                );
+            })
+        }          
+        </tbody>
     );
 }
