@@ -2,9 +2,9 @@
 
 import { server_name_atom } from "@/app/utils/atoms/atoms";
 import { useEffect, useState } from "react";
-import { test2 } from "@/app/api/route";
+import { test2b } from "@/app/api/route";
 
-export default function Table() {
+export default function TableB() {
     const server_name_list = ["류트", "만돌린", "울프", "하프"];
     const [server_name, set_server_name] = useState("류트");
     const [result, setResult] = useState([]);
@@ -20,7 +20,7 @@ export default function Table() {
 
     useEffect(() => {
         async function getData() {
-            let res = await test2(server_name);
+            let res = await test2b(server_name);
             if (res.horn_bugle_world_history) {
                 setResult(res.horn_bugle_world_history)
             }

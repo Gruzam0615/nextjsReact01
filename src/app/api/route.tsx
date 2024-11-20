@@ -1,6 +1,6 @@
 export async function Get() {}
 
-export async function test2b(server_name: string) {
+export async function test2(server_name: string) {
     console.log("server_name", server_name);
 
     const key = String(process.env.NEXT_PUBLIC_TEST1_API_KEY);
@@ -8,6 +8,20 @@ export async function test2b(server_name: string) {
     headers.append("x-nxopen-api-key", key);
 
     const data = await fetch("https://open.api.nexon.com/mabinogi/v1/horn-bugle-world/history?server_name="+server_name, {
+        method: "GET",
+        headers: headers,
+    })
+    .then((res) => res.json())
+    
+    return data;
+}
+
+export async function test2b(server_name: string) {
+    console.log("server_name", server_name);
+
+    const headers = new Headers();
+
+    const data = await fetch("http://localhost:4000/page1/test1?server_name="+server_name, {
         method: "GET",
         headers: headers,
     })
