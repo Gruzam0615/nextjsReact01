@@ -2,7 +2,7 @@
 
 import { server_name_atom } from "@/app/utils/atoms/atoms";
 import { useEffect, useState } from "react";
-import { test2 } from "@/app/api/route";
+import { GET } from "@/app/api/test2";
 
 export default function Table() {
     const server_name_list = ["류트", "만돌린", "울프", "하프"];
@@ -20,7 +20,7 @@ export default function Table() {
 
     useEffect(() => {
         async function getData() {
-            let res = await test2(server_name);
+            let res = await GET(server_name);
             if (res.horn_bugle_world_history) {
                 setResult(res.horn_bugle_world_history)
             }
