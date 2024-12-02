@@ -22,7 +22,7 @@ export class Page1Controller {
         const url = "https://open.api.nexon.com/mabinogi/v1/horn-bugle-world/history?server_name="+server_name;
         const data = await axios.get<String>(url, {
             headers: {
-                "x-nxopen-api-key": String(process.env.TEST1_API_KEY),
+                "x-nxopen-api-key": String(process.env.X_NXOPEN_API_KEY),
             }
         });
     
