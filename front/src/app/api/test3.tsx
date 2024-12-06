@@ -3,7 +3,7 @@ export async function GET(server_name: string) {
 
     const headers = new Headers();
 
-    const data = await fetch("http://localhost:4000/page1/test1?server_name="+server_name, {
+    const data = await fetch("http://localhost:4000/page3/test1?server_name="+server_name, {
         method: "GET",
         headers: headers,
     })

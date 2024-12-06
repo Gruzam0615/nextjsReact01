@@ -1,14 +1,9 @@
-import Table from "./table";
-import TableB from "./tableb";
+import Test2 from "../api/test2";
 
-export default function Page2() {
-
-    return (
-        <div className="relative overflow-x-auto">
-            <table className="w-full text-md text-left">
-                {/* <Table /> */}
-                <TableB />
-            </table>
+export default async function Page2() {
+    return(
+        <div>        
+            <Test2 />
         </div>
     );
 }

@@ -1,10 +1,10 @@
 import { Module } from "@nestjs/common";
-import { Page1Controller } from "./page1.controller";
+import { Page3Controller } from "./page3.controller";
 import { HttpModule } from "@nestjs/axios";
 
 @Module({
     imports: [HttpModule],
-    controllers: [Page1Controller],
+    controllers: [Page3Controller],
     providers: [],
 })
-export class Page1Module {}
+export class Page3Module {}

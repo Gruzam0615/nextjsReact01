@@ -2,7 +2,7 @@
 
 import { server_name_atom } from "@/app/utils/atoms/atoms";
 import { useEffect, useState } from "react";
-import { GET } from "@/app/api/test2";
+import { GET } from "@/app/api/test3";
 
 export default function Table() {
     const server_name_list = ["류트", "만돌린", "울프", "하프"];

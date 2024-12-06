@@ -26,7 +26,7 @@ export default async function Test1() {
         {
             result?.map((item: any, index: string) => {
                 return(
-                    <div className="flex items-start gap-2.5">
+                    <div className="flex items-start gap-2.5" key={String(index)}>
                         <div className="flex flex-col w-full max-w-100 leading-1.5 p-4 hover:bg-gray-100 rounded-e-xl rounded-es-xl dark:bg-gray-700">
                             <div className="flex items-center space-x-2 rtl:space-x-reverse">
                                 <span className="text-sm font-semibold text-gray-900 dark:text-white">{item.title}</span>

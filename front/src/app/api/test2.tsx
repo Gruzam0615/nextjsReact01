@@ -1,46 +1,42 @@
-// type Test2Props = {
-//     server_name: string;
-// }
+// export default async function Test1() {
 
-// export default async function Test2({ server_name }: Test2Props) {
-//     const headers = new Headers();
-//         headers.append("x-nxopen-api-key", String(process.env.TEST1_API_KEY));
-
-//     const data = await fetch("https://open.api.nexon.com/mabinogi/v1/horn-bugle-world/history?server_name="+server_name, {
-//         method: "GET",
-//         headers: headers,
-//     });
+//     const data = await fetch("https://api.vercel.app/blog");
 //     const result = await data.json();
     
 //     return(
-//         <tbody>
-//         {
-//             result.horn_bugle_world_history?.map((item: any, index: string) => {
-//                 return(
-//                     <tr id={index}>
-//                         <td>{item.character_name}</td>
-//                         <td>{item.message.replace(`${item.character_name} : `, "")}</td>
-//                         <td>{item.date_send}</td>
-//                     </tr>                    
-//                 );
-//             })
-//         }          
-//         </tbody>
-//     );
+//         <div className="">
+//             <ul>
+//             {
+//                 result?.map((item: any, index: string) => {
+//                     return <li key={item.id}>{item.title}</li>
+//                 })
+//             }
+//             </ul>
+//         </div>
+//     )
 // }
 
-export async function GET(server_name: string) {
-    console.log("server_name", server_name);
+export default async function Test1() {
 
-    const key = String(process.env.NEXT_PUBLIC_TEST1_API_KEY);
-    const headers = new Headers();
-    headers.append("x-nxopen-api-key", key);
-
-    const data = await fetch("https://open.api.nexon.com/mabinogi/v1/horn-bugle-world/history?server_name="+server_name, {
-        method: "GET",
-        headers: headers,
-    })
-    .then((res) => res.json())
+    const data = await fetch("https://api.vercel.app/blog");
+    const result = await data.json();
     
-    return data;
+    return(
+        <div className="">
+        {
+            result?.map((item: any, index: string) => {
+                return(
+                    <div className="flex items-start gap-2.5" key={String(index)}>
+                        <div className="flex flex-col w-full max-w-100 leading-1.5 p-4 hover:bg-gray-100 rounded-e-xl rounded-es-xl dark:bg-gray-700">
+                            <div className="flex items-center space-x-2 rtl:space-x-reverse">
+                                <span className="text-sm font-semibold text-gray-900 dark:text-white">{item.title}</span>
+                            </div>
+                            <p className="text-sm font-normal py-2.5 text-gray-900 dark:text-white">{item.content}</p>
+                        </div>
+                    </div>
+                );
+            })
+        }
+        </div>
+    )
 }
