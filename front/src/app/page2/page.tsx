@@ -1,6 +1,8 @@
-import Test2 from "../api/test2";
+"use client";
 
-export default async function Page2() {
+import { Test2 } from "../api/test2";
+
+export default function Page2() {
     return(
         <div>        
             <Test2 />

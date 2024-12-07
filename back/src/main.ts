@@ -12,5 +12,6 @@ async function bootstrap() {
     module.hot.accept();
     module.hot.dispose(() => app.close());
   }
+  console.log(`Server running at ${await app.getUrl()}`)
 }
 bootstrap();

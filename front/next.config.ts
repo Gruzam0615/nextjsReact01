@@ -3,14 +3,20 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   /* config options here */
   // crossOrigin: "anonymous",
-  // async rewrites() {
-  //     return[
-  //       {
-  //         destination: "http://127.0.0.1:4000/:path*",
-  //         source: "/page1/:path*",
-  //       }
-  //     ];
-  // },
+  reactStrictMode: true,
+
+  async rewrites() {
+      return[
+        {
+          destination: "https://api.vercel.app/blog/:path*",
+          source: "/blog/:path*",
+        }, 
+        {
+          destination: "https://api.vercel.app/pokemon/:path*",
+          source: "/pokemon/:path*"
+        }
+      ];
+  },
   // eslint: {
   //   dirs: [],
   // }
