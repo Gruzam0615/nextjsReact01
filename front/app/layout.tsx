@@ -34,6 +34,9 @@ export default function RootLayout({
           <main>
             {children}
           </main>
+          <>
+            {/* {modal} */}
+          </>
         </div>
       </body>
     </html>
