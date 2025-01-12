@@ -5,11 +5,11 @@ import { Timeline, TimelineBody, TimelineContent, TimelineItem, TimelinePoint, T
 
 export default async function Page1() {
     const lists = await getLists();
-
-    return (       
+   
+    return (
         <Timeline>
             {
-                lists.map((list: any) => (
+                lists.map((list: Page2Interface) => (
                     <Link key={list.id} href={`/page2/${list.id}?title=${list.title}`}>
                         <TimelineItem>
                             <TimelinePoint />
