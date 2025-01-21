@@ -10,7 +10,7 @@ export default function WritePost() {
     const [author, setAuthor] = useState("");
     const [date, setDate] = useState("");
     const [content, setContent] = useState("");
-    const [fileInputNameList, setFileInputNameList] = useState<string[]>([]);
+    const [fileInputNameList, setFileInputNameList] = useState<object[]>([]);
     const [fileInput, setFileInput] = useState<string[]>([]);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -34,11 +34,22 @@ export default function WritePost() {
         fileInputRef?.current?.click();
     }
 
+    const fileInputListDelete = (e: any) => {
+        const index = Number(e.currentTarget.getAttribute("id"));
+        let temp: object[] = [];
+        fileInputNameList.map((f, idx) => {
+            if(index !== idx) {
+                temp.push(f);
+            }
+            setFileInputNameList(temp);
+        })
+    }
+
     const onChangeFileInput = (e: React.ChangeEvent) => {
         const targetFiles = (e.target as HTMLInputElement).files as FileList;
         const targetFilesArray = Array.from(targetFiles);
         const selectedFiles: string[] = targetFilesArray.map((file) => { return URL.createObjectURL(file); });
-        const selectedFilesNameList: string[] = targetFilesArray.map((file) => { return file.name; });
+        const selectedFilesNameList: object[] = targetFilesArray.map((file) => { return file });
         setFileInput((prev) => prev.concat(selectedFiles));
         setFileInputNameList((prev) => prev.concat(selectedFilesNameList));
     }
@@ -114,7 +125,6 @@ export default function WritePost() {
                         <div className="w-9/12">
                             {/* <TextInput id="content" type="text" sizing="sm" value={content} onChange={onChangeContent} /> */}
                             <EditorComponent
-
                                 readOnly={readOnly}
                                 defaultValue={content}
                                 onChangeSelection={setRange}
@@ -128,20 +138,23 @@ export default function WritePost() {
                             <Label htmlFor="fileInput" value="첨부 파일: " />
                             <input id="fileInput" className="fileInput" type="file" accept="image/*" ref={fileInputRef} multiple onChange={onChangeFileInput}/>
                         </div>
-                        <div className="w-9/12 text-center self-center">
-                            <Label value="첨부 파일 목록" />
+                        <div className="w-2/12 self-center"  onClick={fileInputLabelClick}>
+                            <Label value="파일 첨부" />
                         </div>
+                        <div className="w-8/12"></div>
+                    </div>
+                    <div className="flex flex-row h-12 text-center">
+                        <div className="w-9/12">파일명</div>
+                        <div className="w-2/12">크기</div>
                     </div>
                     {
                         //  fileInput.map((file, index) => (
                         //     <img key={index} src={file} width="280" height="160" alt={`image_${index}`} />
                         // ))
                         fileInputNameList.map((file, index) => (
-                            <div key={index} className="flex flex-row h-12" onClick={fileInputLabelClick}>
-                                <div className="w-2/12"></div>
-                                <div className="w-9/12 text-center self-center">
-                                    <Label value={file} />
-                                </div>
+                            <div key={index} className="flex flex-row h-12 text-center" onClick={fileInputListDelete} id={String(index)}>
+                                <div className="w-9/12"><Label value={file.name} /></div>
+                                <div className="w-2/12"><Label value={`${file.size}`} /></div>
                             </div>
                         ))
                     }
