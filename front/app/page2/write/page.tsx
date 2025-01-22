@@ -4,6 +4,15 @@ import React, { memo, useRef, useState } from "react";
 import { Button, FileInput, Label, TextInput } from "flowbite-react";
 import "@/app/style/Write.css";
 import EditorComponent from "@/app/components/Editor";
+import { WritePostApi } from "@/app/api/page2";
+
+interface RequestParamInterface {
+    "title": string,
+    "author": string,
+    "date": string,
+    "content": string,
+    "fileInput": string[],
+}
 
 export default function WritePost() {
     const [title, setTitle] = useState("");
@@ -74,13 +83,14 @@ export default function WritePost() {
     // }
 
     const doPost = () => {
-        console.log({
+        const requestParam: RequestParamInterface = {
             "title": title,
             "author": author,
             "date": date,
             "content": content,
             "fileInput": fileInput,
-        })
+        }
+        WritePostApi(requestParam);
     }
 
     const [ range, setRange ] = useState();

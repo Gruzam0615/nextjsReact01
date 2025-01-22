@@ -10,6 +10,10 @@ const nextConfig: NextConfig = {
       {
         destination: "https://api.vercel.app/pokemon/:path*",
         source: "/pokemon/:path*"
+      },
+      {
+        destination: "http://localhost:4000/page2/writePost/:path*",
+        source: "/page2/writePost/:path*"
       }
     ];
 },
