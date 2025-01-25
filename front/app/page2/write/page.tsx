@@ -5,6 +5,7 @@ import { Button, FileInput, Label, TextInput } from "flowbite-react";
 import "@/app/style/Write.css";
 import EditorComponent from "@/app/components/Editor";
 import { WritePostApi } from "@/app/api/page2";
+import { useRouter } from "next/navigation";
 
 interface RequestParamInterface {
     "title": string,
@@ -15,6 +16,7 @@ interface RequestParamInterface {
 }
 
 export default function WritePost() {
+    const router = useRouter();
     const [title, setTitle] = useState("");
     const [author, setAuthor] = useState("");
     const [date, setDate] = useState("");
@@ -82,7 +84,7 @@ export default function WritePost() {
     //     console.log(fileInput);
     // }
 
-    const doPost = () => {
+    const doPost = async() => {
         const requestParam: RequestParamInterface = {
             "title": title,
             "author": author,
@@ -90,7 +92,13 @@ export default function WritePost() {
             "content": content,
             "fileInput": fileInput,
         }
-        WritePostApi(requestParam);
+        const data = await WritePostApi(requestParam);
+        if(data != null) {
+            alert("개발 중");
+        } else {
+            alert("업로드 실패");
+            router.refresh();
+        }
     }
 
     const [ range, setRange ] = useState();

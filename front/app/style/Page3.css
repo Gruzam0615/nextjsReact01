@@ -1,0 +1,20 @@
+.my-grid-row {
+    margin: 10px;
+}
+
+.my-grid-column {
+    width: 100%;
+    height: 200px;
+    text-align: center;
+    justify-items: center;
+    align-self: center;
+    align-content: center;
+    border: 0px black solid;
+    border-radius: 15px;
+    background-color: aliceblue;
+}
+
+.my-grid-column:hover {
+    border: 2px rgb(190, 198, 205) solid;
+    font-weight: bolder;
+}

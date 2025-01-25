@@ -1,6 +1,11 @@
 export async function getLists() {
-    const data = await fetch("https://api.vercel.app/blog")
-    const result = await data.json()
+    const result = await fetch("https://api.vercel.app/blog")
+    .then((res) => {
+        return res.json();
+    })
+    .catch((err) => {
+        return null;
+    })
     return result;
 }
 
@@ -15,7 +20,14 @@ export async function WritePostApi(param: any) {
         body: JSON.stringify(param),
     }
 
-    const data = await fetch("/page2/writePost", options);
-    // const result = await data.json();
-    // return result;
+    const result = await fetch("/page2/writePost", options)
+    .then((res) => {
+        return res.json();
+    })
+    .catch((err) => {
+        console.log("/page2/writePost Failed...");
+        return null;
+    })
+    
+    return result;
 }

@@ -20,6 +20,7 @@ export default async function Page2() {
             <div className="grid grid-col">
                 <Timeline>
                     {
+                        lists ?
                         lists.map((list: Page2Interface) => (
                             <Link key={list.id} href={`/page2/${list.id}?title=${list.title}`}>
                                 <TimelineItem>
@@ -31,7 +32,17 @@ export default async function Page2() {
                                     </TimelineContent>
                                 </TimelineItem>
                             </Link>
-                        ))
+                        )):
+                        <Link href={""}>
+                            <TimelineItem>
+                                    <TimelinePoint />
+                                    <TimelineContent>
+                                        <TimelineTime></TimelineTime>
+                                        <TimelineTitle>No Data</TimelineTitle>
+                                        <TimelineBody></TimelineBody>
+                                    </TimelineContent>
+                                </TimelineItem>
+                        </Link>
                     }
                 </Timeline>
             </div>
