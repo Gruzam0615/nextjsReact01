@@ -13,7 +13,22 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model InputImageFile {
-  id Int @id @default(autoincrement())
-  url String @db.LongText
+model Page2 {
+  id Int @default(autoincrement()) @id
+  title String
+  author String
+  content String
+  attachFile AttachFile[]
+  created String
+  updated String
+}
+
+model AttachFile {
+  id Int @default(autoincrement()) @id
+  filename String
+  fileURL String
+  created String
+  updated String
+  page2 Page2 @relation(fields: [page2Id], references: [id])
+  page2Id Int
 }

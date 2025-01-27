@@ -1,10 +1,15 @@
 import { HttpService } from "@nestjs/axios";
 import { Body, Controller, Get, Post, Query, Req } from "@nestjs/common";
 import axios from "axios";
+import { Page2Service } from "./page2.service";
+import { Page2 as Page2Model } from "@prisma/client";
 
 @Controller("/page2")
 export class Page2Controller {
-    constructor(private readonly httpService: HttpService) {}
+    constructor(
+        private readonly page2Service: Page2Service,
+    ) {}
+    
 
     @Get()
     findAll(): any {
@@ -42,10 +47,20 @@ export class Page2Controller {
             "content": string;
             "fileInput": string[];
         },
-    ): Promise<any> {
+    ): Promise<Page2Model> {
         console.log("Requested /page2/writePost");
         console.log(data);
-        return "";
+        // return "";
+        const param = {
+            "title": data.title,
+            "author": data.author,
+            "content": data.content,
+            "created": data.date,
+            "updated": data.date,
+        }
+
+
+        return this.page2Service.createPost(param);
     }
 
 }
