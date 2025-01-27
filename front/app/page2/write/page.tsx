@@ -21,6 +21,7 @@ export default function WritePost() {
     const [author, setAuthor] = useState("");
     const [date, setDate] = useState("");
     const [content, setContent] = useState("");
+    const [contentPhotos, setContentPhotos] = useState<object[]>([]);
     const [fileInputNameList, setFileInputNameList] = useState<object[]>([]);
     const [fileInput, setFileInput] = useState<string[]>([]);
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -92,13 +93,16 @@ export default function WritePost() {
             "content": content,
             "fileInput": fileInput,
         }
-        const data = await WritePostApi(requestParam);
-        if(data != null) {
-            alert("개발 중");
-        } else {
-            alert("업로드 실패");
-            router.refresh();
-        }
+        console.log(requestParam);
+        console.log(contentPhotos);
+
+        // const data = await WritePostApi(requestParam);
+        // if(data != null) {
+        //     alert("개발 중");
+        // } else {
+        //     alert("업로드 실패");
+        //     router.refresh();
+        // }
     }
 
     const [ range, setRange ] = useState();
@@ -145,6 +149,8 @@ export default function WritePost() {
                             <EditorComponent
                                 readOnly={readOnly}
                                 defaultValue={content}
+                                contentPhotos={contentPhotos}
+                                setContentPhotos={setContentPhotos}
                                 onChangeSelection={setRange}
                                 onTextChange={setContent}
                                 ref={quillRef}

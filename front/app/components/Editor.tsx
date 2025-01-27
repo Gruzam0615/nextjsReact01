@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import ReactQuill, { Quill } from "react-quill-new";
 import "react-quill-new/dist/quill.snow.css";
 
-const EditorComponent = ({ readOnly, defaultValue, onTextChange, onChangeSelection, ref }: any) => {
+const EditorComponent = ({ readOnly, defaultValue, contentPhotos, setContentPhotos, onTextChange, onChangeSelection, ref }: any) => {
 
   /**
    * Backend가 없는 상태에서 Frontend 시연을 위한 Rich Editor 이미지 첨부 파일 처리기
@@ -35,14 +35,21 @@ const EditorComponent = ({ readOnly, defaultValue, onTextChange, onChangeSelecti
         return;
       } else {
         const selectedFiles: string[] = targetFilesArray.map((file) => { return URL.createObjectURL(file); });
-        const selectedFilesNameList: string[] = targetFilesArray.map((file) => { return file.name; });
+        const selectedFilesBlobList: object[] = targetFilesArray.map((file) => {
+          const reader = new FileReader();
+          reader.onload = function(event) {}
+          reader.readAsArrayBuffer(file)
+          return reader; 
+        });
         const editor = await ref.current.getEditor();
         const range = await editor.getSelection();
 
         selectedFiles.forEach((file: string, index: number) => {
           const name = LocalImageUrlHandler(file);
-          // console.log(`name: ${name}`);
           editor.insertEmbed(range.index + index, "image", name);
+        })
+        selectedFilesBlobList.forEach((file: object, index: number) => {
+          setContentPhotos(...contentPhotos, file);
         })
 
       }
