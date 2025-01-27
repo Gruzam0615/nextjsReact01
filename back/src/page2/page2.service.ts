@@ -15,6 +15,11 @@ export class Page2Service {
     }    
 
     async createPost(data: Prisma.Page2CreateInput): Promise<Page2> {
+        if(data.created == "" || undefined) {
+            data.created = new Date().toISOString();
+            data.updated = data.created;
+        }
+
         return this.prisma.page2.create({
             data
         });
