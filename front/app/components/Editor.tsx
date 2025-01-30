@@ -1,9 +1,8 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import ReactQuill, { Quill } from "react-quill-new";
 import "react-quill-new/dist/quill.snow.css";
 
 const EditorComponent = ({ readOnly, defaultValue, contentPhotos, setContentPhotos, onTextChange, onChangeSelection, ref }: any) => {
-
   /**
    * Backend가 없는 상태에서 Frontend 시연을 위한 Rich Editor 이미지 첨부 파일 처리기
    * @param fileURL 
@@ -16,6 +15,13 @@ const EditorComponent = ({ readOnly, defaultValue, contentPhotos, setContentPhot
       return fileURL
     }
     return ImageBlot.sanitize(fileURL);
+  }
+
+  const MyFileReader = (file: any, cb: any) => {
+    const fr = new FileReader();
+    fr.onloadend = () => cb(fr.result);
+    fr.onerror = (err) => cb(err);
+    fr.readAsDataURL(file);
   }
 
   const ImageHandler = () => {
@@ -34,13 +40,7 @@ const EditorComponent = ({ readOnly, defaultValue, contentPhotos, setContentPhot
         alert(`첨부 가능한 파일개수는 ${maxFileCount} 개 입니다.`)
         return;
       } else {
-        const selectedFiles: string[] = targetFilesArray.map((file) => { return URL.createObjectURL(file); });
-        const selectedFilesBlobList: object[] = targetFilesArray.map((file) => {
-          const reader = new FileReader();
-          reader.onload = function(event) {}
-          reader.readAsArrayBuffer(file)
-          return reader; 
-        });
+        const selectedFiles: string[] = targetFilesArray.map((file) => { return URL.createObjectURL(file); });      
         const editor = await ref.current.getEditor();
         const range = await editor.getSelection();
 
@@ -48,10 +48,6 @@ const EditorComponent = ({ readOnly, defaultValue, contentPhotos, setContentPhot
           const name = LocalImageUrlHandler(file);
           editor.insertEmbed(range.index + index, "image", name);
         })
-        selectedFilesBlobList.forEach((file: object, index: number) => {
-          setContentPhotos(...contentPhotos, file);
-        })
-
       }
     })
   }

@@ -17,14 +17,19 @@ interface RequestParamInterface {
 
 export default function WritePost() {
     const router = useRouter();
+    
     const [title, setTitle] = useState("");
     const [author, setAuthor] = useState("");
     const [date, setDate] = useState("");
     const [content, setContent] = useState("");
     const [contentPhotos, setContentPhotos] = useState<object[]>([]);
-    const [fileInputNameList, setFileInputNameList] = useState<object[]>([]);
     const [fileInput, setFileInput] = useState<string[]>([]);
+    const [fileInputNameList, setFileInputNameList] = useState<object[]>([]);
     const fileInputRef = useRef<HTMLInputElement>(null);
+    
+    const [ range, setRange ] = useState();
+    const [ readOnly, setReadOnly ] = useState<boolean>(false);
+    const quillRef = useRef(null);
 
     const onChangeTitle = (e: any) => {
         setTitle(e.target.value);
@@ -57,64 +62,35 @@ export default function WritePost() {
         })
     }
 
-    const onChangeFileInput = (e: React.ChangeEvent) => {
-        const targetFiles = (e.target as HTMLInputElement).files as FileList;
-        const targetFilesArray = Array.from(targetFiles);
-        const selectedFiles: string[] = targetFilesArray.map((file) => { return URL.createObjectURL(file); });
-        const selectedFilesNameList: object[] = targetFilesArray.map((file) => { return file });
-        setFileInput((prev) => prev.concat(selectedFiles));
-        setFileInputNameList((prev) => prev.concat(selectedFilesNameList));
-    }
-
-    // const onChangeFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    //     const files = e.target.files!
-    //     if (!files[0]) return
-    //     if ((fileInput.length + files.length) > 10) {
-    //         return alert('최대 10개 사진만 첨부할 수 있습니다.')
-    //     }
-    //     const readAndPreview = (file: any) => {
-    //         if (/\.(jpe?g|png|gif)$/i.test(file.name)) {
-    //             const reader = new FileReader()
-    //             reader.onload = () => setFileInput(prev => [...prev, reader.result as string])
-    //             reader.readAsDataURL(file)
-    //         }
-    //     }
-    //     if (files) {
-    //         [].forEach.call(files, readAndPreview)
-    //     }
-    //     console.log(fileInput);
-    // }
-
-    const doPost = async() => {
-        const requestParam: RequestParamInterface = {
-            "title": title,
-            "author": author,
-            "date": date,
-            "content": content,
-            "fileInput": fileInput,
+    const onChangeFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const files = e.target.files!
+        if (!files[0]) return
+        if ((fileInput.length + files.length) > 10) {
+            return alert('최대 10개 사진만 첨부할 수 있습니다.')
         }
-        console.log(requestParam);
-        console.log(contentPhotos);
-
-        // const data = await WritePostApi(requestParam);
-        // if(data != null) {
-        //     alert("개발 중");
-        // } else {
-        //     alert("업로드 실패");
-        //     router.refresh();
-        // }
+        const readAndPreview = (file: any) => {
+            if (/\.(jpe?g|png|gif)$/i.test(file.name)) {
+                const reader = new FileReader()
+                reader.onload = () => setFileInput(prev => [...prev, reader.result as string])
+                reader.readAsDataURL(file)
+            }
+        }
+        if (files) {
+            [].forEach.call(files, readAndPreview)
+        }
+        console.log(fileInput);
     }
 
-    const [ range, setRange ] = useState();
-    const [ readOnly, setReadOnly ] = useState<boolean>(false);
-    const quillRef = useRef(null);
+    function Test() {
+        alert("!!");
+    }
 
     return (
         <div className="flex flex-col">
             <div className="text-center">
                 <h5 className="text-2xl">신규 작성</h5>
             </div>
-            <form>
+            <form action={Test}>
                 <div className="flex flex-col">
                     <div className="flex flex-row h-12 text-end">
                         <div className="w-2/12 self-center">
@@ -175,17 +151,17 @@ export default function WritePost() {
                         //  fileInput.map((file, index) => (
                         //     <img key={index} src={file} width="280" height="160" alt={`image_${index}`} />
                         // ))
-                        fileInputNameList.map((file, index) => (
-                            <div key={index} className="flex flex-row h-12 text-center" onClick={fileInputListDelete} id={String(index)}>
-                                <div className="w-9/12"><Label value={file.name} /></div>
-                                <div className="w-2/12"><Label value={`${file.size}`} /></div>
-                            </div>
-                        ))
+                        // fileInputNameList.map((file, index) => (
+                        //     <div key={index} className="flex flex-row h-12 text-center" onClick={fileInputListDelete} id={String(index)}>
+                        //         <div className="w-9/12"><Label value={file.name} /></div>
+                        //         <div className="w-2/12"><Label value={`${file.size}`} /></div>
+                        //     </div>
+                        // ))
                     }
                     <div className="flex flex-row h-12 justify-end">
                         <div className="w-9/12"></div>
                         <div className="w-2/12">
-                            <Button color="gray" onClick={doPost}>작성</Button>
+                            <Button color="gray" type="submit">작성</Button>
                         </div>
                     </div>
                 </div>

@@ -20,14 +20,14 @@ export async function WritePostApi(param: any) {
         body: JSON.stringify(param),
     }
 
-    const result = await fetch("/page2/writePost", options)
-    .then((res) => {
-        return res.json();
-    })
-    .catch((err) => {
-        console.log("/page2/writePost Failed...");
-        return null;
-    })
+    // const result = await fetch("/page2/writePost", options)
+    // .then((res) => {
+    //     return res.json();
+    // })
+    // .catch((err) => {
+    //     console.log("/page2/writePost Failed...");
+    //     return null;
+    // })
     
-    return result;
+    // return result;
 }
