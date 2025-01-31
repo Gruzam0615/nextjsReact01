@@ -23,6 +23,14 @@ const EditorComponent = ({ readOnly, defaultValue, contentPhotos, setContentPhot
     fr.onerror = (err) => cb(err);
     fr.readAsDataURL(file);
   }
+  const MyFileReaderAsync = (file: any) => {
+    return new Promise((resolve, reject) => {
+      const fr = new FileReader();
+      fr.onloadend = () => resolve(fr.result);
+      fr.onerror = (err) => reject(err);
+      fr.readAsDataURL(file);    
+    })
+   }
 
   const ImageHandler = () => {
     const maxFileCount = 10;
@@ -40,14 +48,28 @@ const EditorComponent = ({ readOnly, defaultValue, contentPhotos, setContentPhot
         alert(`첨부 가능한 파일개수는 ${maxFileCount} 개 입니다.`)
         return;
       } else {
-        const selectedFiles: string[] = targetFilesArray.map((file) => { return URL.createObjectURL(file); });      
+        // 파일을 이용해 Blob으로 변환한후 이미지를 표시하는 방식
+        const blobList = await Promise.all(
+          targetFilesArray.map((file) => { return MyFileReaderAsync(file) })
+        );
+        // console.log(blobList);
         const editor = await ref.current.getEditor();
         const range = await editor.getSelection();
 
-        selectedFiles.forEach((file: string, index: number) => {
-          const name = LocalImageUrlHandler(file);
+        blobList.forEach((file: any, index: number) => {
+          const name = file;
           editor.insertEmbed(range.index + index, "image", name);
         })
+
+        // 파일을 이용해 임시 URL을 만들어 이미지를 표시하는 방식
+        // const selectedFiles: string[] = targetFilesArray.map((file) => { return URL.createObjectURL(file); });      
+        // const editor = await ref.current.getEditor();
+        // const range = await editor.getSelection();
+
+        // selectedFiles.forEach((file: string, index: number) => {
+        //   const name = LocalImageUrlHandler(file);
+        //   editor.insertEmbed(range.index + index, "image", name);
+        // })
       }
     })
   }
