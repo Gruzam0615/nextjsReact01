@@ -52,13 +52,21 @@ const EditorComponent = ({ readOnly, defaultValue, contentPhotos, setContentPhot
         const blobList = await Promise.all(
           targetFilesArray.map((file) => { return MyFileReaderAsync(file) })
         );
+
         // console.log(blobList);
-        const editor = await ref.current.getEditor();
+
+        const editor = await ref.current.getEditor()
         const range = await editor.getSelection();
 
-        blobList.forEach((file: any, index: number) => {
+        blobList.forEach(async(file: any, index: number) => {
           const name = file;
-          editor.insertEmbed(range.index + index, "image", name);
+          console.log(`range: ${JSON.stringify(range)}\nindex:${index}`);
+          editor.insertEmbed(range.index + index, "image", name)
+          editor.insertText(range.index + 1 + index, "New Line \n");
+          
+          // editor.insertText(range.index + index, "\n\n");
+          // editor.setSelection(range.index + 2, 0);
+          // editor.focus();
         })
 
         // 파일을 이용해 임시 URL을 만들어 이미지를 표시하는 방식
