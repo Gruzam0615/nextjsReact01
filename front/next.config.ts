@@ -12,8 +12,8 @@ const nextConfig: NextConfig = {
         source: "/pokemon/:path*"
       },
       {
-        destination: "http://localhost:4000/page2/writePost/:path*",
-        source: "/page2/writePost/:path*"
+        destination: "http://localhost:4000/post/upload:path*",
+        source: "/post/upload:path*"
       }
     ];
 },

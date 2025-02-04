@@ -28,9 +28,9 @@ const EditorComponent = ({ readOnly, defaultValue, contentPhotos, setContentPhot
       const fr = new FileReader();
       fr.onloadend = () => resolve(fr.result);
       fr.onerror = (err) => reject(err);
-      fr.readAsDataURL(file);    
+      fr.readAsDataURL(file);
     })
-   }
+  }
 
   const ImageHandler = () => {
     const maxFileCount = 10;
@@ -45,40 +45,55 @@ const EditorComponent = ({ readOnly, defaultValue, contentPhotos, setContentPhot
       const targetFilesArray = Array.from(targetFiles);
 
       if (targetFilesArray.length > maxFileCount) {
-        alert(`첨부 가능한 파일개수는 ${maxFileCount} 개 입니다.`)
+        alert(`첨부 가능한 파일개수는 ${maxFileCount} 입니다.`);
         return;
       } else {
-        // 파일을 이용해 Blob으로 변환한후 이미지를 표시하는 방식
-        const blobList = await Promise.all(
-          targetFilesArray.map((file) => { return MyFileReaderAsync(file) })
-        );
+        try {
+          const selectedFiles: string[] = targetFilesArray.map((file) => { return URL.createObjectURL(file); });
+          const editor = await ref.current.getEditor();
+          const range = await editor.getSelection();
 
-        // console.log(blobList);
-
-        const editor = await ref.current.getEditor()
-        const range = await editor.getSelection();
-
-        blobList.forEach(async(file: any, index: number) => {
-          const name = file;
-          console.log(`range: ${JSON.stringify(range)}\nindex:${index}`);
-          editor.insertEmbed(range.index + index, "image", name)
-          editor.insertText(range.index + 1 + index, "New Line \n");
-          
-          // editor.insertText(range.index + index, "\n\n");
-          // editor.setSelection(range.index + 2, 0);
-          // editor.focus();
-        })
-
-        // 파일을 이용해 임시 URL을 만들어 이미지를 표시하는 방식
-        // const selectedFiles: string[] = targetFilesArray.map((file) => { return URL.createObjectURL(file); });      
-        // const editor = await ref.current.getEditor();
-        // const range = await editor.getSelection();
-
-        // selectedFiles.forEach((file: string, index: number) => {
-        //   const name = LocalImageUrlHandler(file);
-        //   editor.insertEmbed(range.index + index, "image", name);
-        // })
+          selectedFiles.forEach((file: string, index: number) => {
+            const name = LocalImageUrlHandler(file);
+            editor.insertEmbed(range.index + index, "image", name);
+          })
+          await Promise.all(
+            targetFilesArray.map((file) => { return MyFileReaderAsync(file) })
+          )
+          .then((res) => {
+            setContentPhotos(res);
+            return res;
+          })
+          // .then((res) => {
+          //   res.forEach((file: any, index: number) => {
+          //     const editor = ref.current.getEditor();
+          //     const range = editor.getSelection();
+          //     editor.insertEmbed(range.index, "image", file);
+          //     editor.insertText(range.index + 1, `\n\n`);
+          //     editor.setSelection(range.index + 3);
+          //   })
+          // })
+          .catch((err) => {
+            console.log("ImageHandler() inner Error");
+            console.log(err)
+          })
+        }
+        catch (error) {
+          console.log("ImageHandler() try error");
+          console.log(error);
+          return;
+        }
       }
+
+      // 파일을 이용해 임시 URL을 만들어 이미지를 표시하는 방식
+      // const selectedFiles: string[] = targetFilesArray.map((file) => { return URL.createObjectURL(file); });      
+      // const editor = await ref.current.getEditor();
+      // const range = await editor.getSelection();
+
+      // selectedFiles.forEach((file: string, index: number) => {
+      //   const name = LocalImageUrlHandler(file);
+      //   editor.insertEmbed(range.index + index, "image", name);
+      // })
     })
   }
 

@@ -6,11 +6,12 @@ import "@/app/style/Write.css";
 import EditorComponent from "@/app/components/Editor";
 import { WritePostApi } from "@/app/api/page2";
 import { useRouter } from "next/navigation";
+import { Post } from "@/app/interface/post.interface";
 
 interface RequestParamInterface {
     "title": string,
     "author": string,
-    "date": string,
+    "created": string,
     "content": string,
     "fileInput": string[],
 }
@@ -20,7 +21,7 @@ export default function WritePost() {
     
     const [title, setTitle] = useState("");
     const [author, setAuthor] = useState("");
-    const [date, setDate] = useState("");
+    const [created, setCreated] = useState("");
     const [content, setContent] = useState("");
     const [contentPhotos, setContentPhotos] = useState<object[]>([]);
     const [fileInput, setFileInput] = useState<string[]>([]);
@@ -39,8 +40,8 @@ export default function WritePost() {
         setAuthor(e.target.value);
     }
 
-    const onChangeDate = (e: any) => {
-        setDate(e.target.value);
+    const onChangeCreated = (e: any) => {
+        setCreated(e.target.value);
     }
 
     const onChangeContent = (e: any) => {
@@ -82,7 +83,15 @@ export default function WritePost() {
     }
 
     function Test() {
-        alert("!!");
+        const post: any = {
+            title: title,
+            author: author,
+            content: content,
+            contentPhotos: contentPhotos,
+            created: created,
+        }
+
+        WritePostApi(post)
     }
 
     return (
@@ -110,10 +119,10 @@ export default function WritePost() {
                     </div>
                     <div className="flex flex-row h-12 text-end">
                         <div className="w-2/12 self-center">
-                            <Label htmlFor="date" value="작성일: " />
+                            <Label htmlFor="created" value="작성일: " />
                         </div>
                         <div className="w-9/12 self-center">
-                            <TextInput id="date" type="datetime-local" value={date} onChange={onChangeDate} sizing="sm" />
+                            <TextInput id="created" type="datetime-local" value={created} onChange={onChangeCreated} sizing="sm" />
                         </div>
                     </div>
                     <div className="flex flex-row h-[900px]">
@@ -133,7 +142,7 @@ export default function WritePost() {
                             />
                         </div>
                     </div>
-                    <div className="flex flex-row h-12">
+                    {/* <div className="flex flex-row h-12">
                         <div className="w-2/12 text-end self-center">
                             <Label htmlFor="fileInput" value="첨부 파일: " />
                             <input id="fileInput" className="fileInput" type="file" accept="image/*" ref={fileInputRef} multiple onChange={onChangeFileInput}/>
@@ -146,7 +155,7 @@ export default function WritePost() {
                     <div className="flex flex-row h-12 text-center">
                         <div className="w-9/12">파일명</div>
                         <div className="w-2/12">크기</div>
-                    </div>
+                    </div> */}
                     {
                         //  fileInput.map((file, index) => (
                         //     <img key={index} src={file} width="280" height="160" alt={`image_${index}`} />
