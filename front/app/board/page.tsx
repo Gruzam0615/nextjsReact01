@@ -12,7 +12,7 @@ export default async function Page2() {
                 <div></div>
                 <div></div>
                 <div className="self-center justify-items-end">
-                    <Link href={`/page2/write`}>
+                    <Link href={`/board/write`}>
                         <Button color="gray">작성</Button>
                     </Link>
                 </div>
@@ -21,7 +21,7 @@ export default async function Page2() {
                 <Timeline>
                     {
                         lists ?
-                        lists.map((list: Page2Interface) => (
+                        lists.map((list: any) => (
                             <Link key={list.id} href={`/page2/${list.id}?title=${list.title}`}>
                                 <TimelineItem>
                                     <TimelinePoint />

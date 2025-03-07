@@ -1,5 +1,5 @@
 import Modal from "@/app/components/Modal";
-import WritePost from "@/app/page2/write/page";
+import WritePost from "@/app/board/write/page";
 
 export default function Page() {
     return(

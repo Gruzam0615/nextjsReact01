@@ -14,7 +14,7 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "NextJsReact02",
+  title: "NextJSReact01",
   description: "NextJS react & tailwindcss, flowbite example",
 };
 
